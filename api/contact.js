@@ -1,11 +1,3 @@
-// api/contact.js  — Vercel Serverless Function
-// Uses Nodemailer with Gmail SMTP (or any SMTP provider)
-// Set these env vars in Vercel dashboard:
-//   SMTP_HOST        e.g. smtp.gmail.com
-//   SMTP_PORT        e.g. 587
-//   SMTP_USER        your Gmail address  e.g. juzarkagdi53@gmail.com
-//   SMTP_PASS        Gmail App Password  (NOT your normal password)
-//   MAIL_TO          recipient email     e.g. juzarkagdi53@gmail.com
 
 const nodemailer = require("nodemailer");
 
@@ -107,8 +99,8 @@ module.exports = async function handler(req, res) {
             In the meantime, feel free to check out my work or connect with me:
           </p>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <a href="https://github.com" style="color:#1a6adb;font-size:.85rem;text-decoration:none;padding:8px 16px;border:1px solid #b8d0f5;border-radius:4px;">GitHub</a>
-            <a href="https://linkedin.com" style="color:#1a6adb;font-size:.85rem;text-decoration:none;padding:8px 16px;border:1px solid #b8d0f5;border-radius:4px;">LinkedIn</a>
+            <a href="https://github.com/techkagdi" style="color:#1a6adb;font-size:.85rem;text-decoration:none;padding:8px 16px;border:1px solid #b8d0f5;border-radius:4px;">GitHub</a>
+            <a href="https://www.linkedin.com/in/juzar-kagdi-517b64231" style="color:#1a6adb;font-size:.85rem;text-decoration:none;padding:8px 16px;border:1px solid #b8d0f5;border-radius:4px;">LinkedIn</a>
           </div>
           <hr style="border:none;border-top:1px solid #dde6f7;margin:24px 0;"/>
           <p style="color:#8a9bb5;font-size:.78rem;margin:0;">

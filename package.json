@@ -1,0 +1,12 @@
+{
+  "name": "juzar-kagdi-portfolio",
+  "version": "1.0.0",
+  "description": "Juzar Kagdi — Full Stack Developer Portfolio",
+  "private": true,
+  "dependencies": {
+    "nodemailer": "^6.9.14"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

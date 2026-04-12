@@ -1,0 +1,2891 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juzar Kagdi — Full Stack Developer</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500&display=swap"
+      rel="stylesheet" />
+    <style>
+      :root {
+        --ink: #050d1a;
+        --ink2: #081428;
+        --ink3: #0c1d38;
+        --blue: #4f9eff;
+        --blue-lt: #7dbfff;
+        --white: #fff;
+        --w90: rgba(255, 255, 255, 0.9);
+        --w70: rgba(255, 255, 255, 0.7);
+        --w40: rgba(255, 255, 255, 0.4);
+        --w10: rgba(255, 255, 255, 0.1);
+        --w05: rgba(255, 255, 255, 0.05);
+        --bdr: rgba(79, 158, 255, 0.2);
+        --bdrw: rgba(255, 255, 255, 0.09);
+        --light: #f0f5ff;
+        --light2: #e6eeff;
+        --dk: #0a1628;
+        --md: #2d4a7a;
+        --sf: #5a7aaa;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--ink);
+        color: var(--white);
+        font-family: "Plus Jakarta Sans", sans-serif;
+        overflow-x: hidden;
+        cursor: none;
+      }
+      #cur {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--blue);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+      }
+      #ring {
+        position: fixed;
+        width: 28px;
+        height: 28px;
+        border: 1.5px solid rgba(79, 158, 255, 0.5);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.18s,
+          height 0.18s,
+          opacity 0.18s;
+      }
+      #ring.big {
+        width: 48px;
+        height: 48px;
+        opacity: 0.4;
+      }
+      @media (hover: none) {
+        #cur,
+        #ring {
+          display: none;
+        }
+        body {
+          cursor: auto;
+        }
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6%;
+        background: rgba(5, 13, 26, 0.96);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--bdrw);
+      }
+      .logo {
+        font-family: "Fira Code", monospace;
+        font-size: 1rem;
+        color: var(--white);
+      }
+      .logo em {
+        color: var(--blue);
+        font-style: normal;
+      }
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+      }
+      .nav-links a {
+        font-family: "Fira Code", monospace;
+        font-size: 0.71rem;
+        color: var(--w40);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover,
+      .nav-links a.act {
+        color: var(--blue);
+      }
+      .ham {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+      }
+      .ham span {
+        display: block;
+        width: 22px;
+        height: 1.5px;
+        background: var(--w70);
+      }
+      .mob {
+        display: none;
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: var(--ink2);
+        border-bottom: 1px solid var(--bdrw);
+        padding: 1.4rem 6%;
+        z-index: 199;
+      }
+      .mob.open {
+        display: block;
+      }
+      .mob a {
+        display: block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.84rem;
+        color: var(--w70);
+        text-decoration: none;
+        padding: 0.65rem 0;
+        border-bottom: 1px solid var(--w05);
+      }
+      @media (max-width: 860px) {
+        .nav-links {
+          display: none;
+        }
+        .ham {
+          display: flex;
+        }
+      }
+
+      /* SECTIONS */
+      section {
+        padding: 96px 6%;
+      }
+      .ey {
+        font-family: "Fira Code", monospace;
+        font-size: 0.69rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        margin-bottom: 0.75rem;
+        color: var(--blue);
+      }
+      .ey::before {
+        content: "";
+        width: 22px;
+        height: 1px;
+        background: currentColor;
+      }
+      h2.st {
+        font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+        font-weight: 800;
+        letter-spacing: -1.5px;
+        line-height: 1.1;
+        margin-bottom: 3.5rem;
+      }
+      h2.st span {
+        color: var(--blue);
+      }
+      .light-ey {
+        color: var(--md);
+      }
+      .light-ey::before {
+        background: var(--md);
+      }
+      .light-st {
+        color: var(--dk);
+      }
+      .light-st span {
+        color: #1a6adb;
+      }
+
+      /* REVEAL */
+      .rv {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.65s,
+          transform 0.65s;
+      }
+      .rv.on {
+        opacity: 1;
+        transform: none;
+      }
+      .rvr {
+        opacity: 0;
+        transform: translateX(26px);
+        transition:
+          opacity 0.65s,
+          transform 0.65s;
+      }
+      .rvr.on {
+        opacity: 1;
+        transform: none;
+      }
+      .rvl {
+        opacity: 0;
+        transform: translateX(-26px);
+        transition:
+          opacity 0.65s,
+          transform 0.65s;
+      }
+      .rvl.on {
+        opacity: 1;
+        transform: none;
+      }
+      .rv2 {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.65s 0.1s,
+          transform 0.65s 0.1s;
+      }
+      .rv2.on {
+        opacity: 1;
+        transform: none;
+      }
+      .rv3 {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.65s 0.2s,
+          transform 0.65s 0.2s;
+      }
+      .rv3.on {
+        opacity: 1;
+        transform: none;
+      }
+
+      @keyframes up {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes sl {
+        from {
+          opacity: 0;
+          transform: translateX(28px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes bl {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.15;
+        }
+      }
+      @keyframes cb {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* HERO */
+      #home {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        padding: 80px 6% 60px;
+        gap: 5rem;
+        position: relative;
+        overflow: hidden;
+      }
+      @media (max-width: 920px) {
+        #home {
+          grid-template-columns: 1fr;
+          padding-top: 110px;
+        }
+      }
+      .hbg {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .hblob1 {
+        position: absolute;
+        width: 640px;
+        height: 640px;
+        right: -120px;
+        top: -140px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(30, 78, 155, 0.3) 0%,
+          transparent 65%
+        );
+      }
+      .hblob2 {
+        position: absolute;
+        width: 360px;
+        height: 360px;
+        left: 5%;
+        bottom: -60px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(79, 158, 255, 0.1) 0%,
+          transparent 70%
+        );
+      }
+      .hgrid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(79, 158, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(79, 158, 255, 0.04) 1px, transparent 1px);
+        background-size: 72px 72px;
+      }
+      .hleft {
+        z-index: 2;
+        max-width: 640px;
+      }
+      .htag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: "Fira Code", monospace;
+        font-size: 0.69rem;
+        color: var(--blue);
+        letter-spacing: 0.18em;
+        padding: 6px 14px;
+        border: 1px solid var(--bdr);
+        border-radius: 2px;
+        background: rgba(79, 158, 255, 0.06);
+        margin-bottom: 1.8rem;
+        opacity: 0;
+        animation: up 0.6s 0.2s forwards;
+      }
+      .blink {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #22c55e;
+        animation: bl 1.5s infinite;
+        display: inline-block;
+      }
+      h1.hname {
+        font-size: clamp(3.2rem, 7vw, 5.5rem);
+        font-weight: 800;
+        letter-spacing: -3px;
+        line-height: 0.97;
+        margin-bottom: 1.3rem;
+        opacity: 0;
+        animation: up 0.7s 0.4s forwards;
+      }
+      .hname .n1 {
+        display: block;
+        color: var(--white);
+      }
+      .hname .n2 {
+        display: block;
+        color: var(--blue);
+      }
+      .hsub {
+        font-size: 0.96rem;
+        color: var(--w70);
+        line-height: 1.9;
+        max-width: 500px;
+        margin-bottom: 2.2rem;
+        opacity: 0;
+        animation: up 0.7s 0.6s forwards;
+      }
+      .htyped-wrap {
+        font-family: "Fira Code", monospace;
+        font-size: 1rem;
+        color: var(--blue-lt);
+        margin-bottom: 2.6rem;
+        opacity: 0;
+        animation: up 0.6s 0.75s forwards;
+      }
+      .htyped-wrap::before {
+        content: "$ ";
+        color: var(--w40);
+      }
+      .tcursor {
+        animation: cb 0.8s infinite;
+      }
+      .hbtns {
+        display: flex;
+        gap: 0.9rem;
+        flex-wrap: wrap;
+        opacity: 0;
+        animation: up 0.6s 0.95s forwards;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 12px 26px;
+        border-radius: 3px;
+        font-size: 0.84rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.22s;
+        border: none;
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+      .btn-p {
+        background: var(--blue);
+        color: var(--ink);
+      }
+      .btn-p:hover {
+        background: var(--blue-lt);
+        transform: translateY(-2px);
+      }
+      .btn-o {
+        background: transparent;
+        color: var(--white);
+        border: 1px solid var(--w10);
+      }
+      .btn-o:hover {
+        border-color: var(--blue);
+        color: var(--blue);
+        transform: translateY(-2px);
+      }
+      .hright {
+        z-index: 2;
+        opacity: 0;
+        animation: sl 0.8s 0.5s forwards;
+      }
+      @media (max-width: 920px) {
+        .hright {
+          display: none;
+        }
+      }
+      .pwrap {
+        position: relative;
+        width: 280px;
+      }
+      .pfr {
+        position: absolute;
+        inset: -10px;
+        border: 1px solid var(--bdr);
+        border-radius: 4px;
+      }
+      .pfr2 {
+        position: absolute;
+        inset: -22px;
+        border: 1px solid rgba(79, 158, 255, 0.08);
+        border-radius: 4px;
+      }
+      .pwrap img {
+        width: 280px;
+        height: 340px;
+        object-fit: cover;
+        object-position: top;
+        border-radius: 3px;
+        display: block;
+      }
+      .pbadge {
+        position: absolute;
+        font-family: "Fira Code", monospace;
+        font-size: 0.69rem;
+        background: var(--ink3);
+        border: 1px solid var(--bdr);
+        padding: 7px 14px;
+        border-radius: 2px;
+        white-space: nowrap;
+      }
+      .pb1 {
+        bottom: -14px;
+        left: -18px;
+        color: var(--blue);
+      }
+      .pb2 {
+        top: -14px;
+        right: -18px;
+        color: var(--w70);
+      }
+      .scue {
+        position: absolute;
+        bottom: 2rem;
+        left: 6%;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        opacity: 0;
+        animation: up 0.5s 1.5s forwards;
+      }
+      .sline {
+        width: 40px;
+        height: 1px;
+        background: linear-gradient(to right, var(--blue), transparent);
+      }
+      .slbl {
+        font-family: "Fira Code", monospace;
+        font-size: 0.65rem;
+        color: var(--w40);
+        letter-spacing: 0.14em;
+      }
+
+      /* ABOUT */
+      #about {
+        background: var(--ink2);
+      }
+      .ag {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 5rem;
+        align-items: start;
+      }
+      @media (max-width: 860px) {
+        .ag {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+      }
+      .aphoto-wrap {
+        position: relative;
+      }
+      .aphoto {
+        width: 100%;
+        max-width: 320px;
+        height: 400px;
+        object-fit: cover;
+        object-position: top;
+        border-radius: 4px;
+        display: block;
+      }
+      .apbrd {
+        position: absolute;
+        bottom: -12px;
+        right: -12px;
+        width: calc(100% - 16px);
+        height: calc(100% - 16px);
+        border: 1px solid rgba(79, 158, 255, 0.25);
+        border-radius: 4px;
+        pointer-events: none;
+      }
+      .aplbl {
+        position: absolute;
+        top: 18px;
+        left: -10px;
+        background: var(--blue);
+        color: var(--ink);
+        font-family: "Fira Code", monospace;
+        font-size: 0.67rem;
+        font-weight: 500;
+        padding: 5px 13px;
+        border-radius: 2px;
+      }
+      .about-text p {
+        color: var(--w70);
+        font-size: 0.92rem;
+        line-height: 1.9;
+        margin-bottom: 1rem;
+      }
+      .facts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.55rem;
+        margin: 1.7rem 0 2rem;
+      }
+      .fact {
+        background: var(--ink3);
+        border: 1px solid var(--bdrw);
+        border-radius: 3px;
+        padding: 11px 15px;
+      }
+      .fk {
+        font-family: "Fira Code", monospace;
+        font-size: 0.63rem;
+        color: var(--w40);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 0.2rem;
+      }
+      .fv {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--w90);
+      }
+
+      /* SKILLS — LIGHT */
+      #skills {
+        background: var(--light);
+      }
+      .sk-cats {
+        display: flex;
+        flex-direction: column;
+        gap: 2.2rem;
+      }
+      .sk-cat-row {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 2rem;
+        align-items: start;
+        padding-bottom: 2.2rem;
+        border-bottom: 1px solid rgba(26, 106, 219, 0.1);
+      }
+      .sk-cat-row:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      @media (max-width: 680px) {
+        .sk-cat-row {
+          grid-template-columns: 1fr;
+          gap: 0.8rem;
+        }
+      }
+      .sk-cat-label {
+        font-family: "Fira Code", monospace;
+        font-size: 0.7rem;
+        color: var(--md);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        padding-top: 0.2rem;
+        font-weight: 500;
+      }
+      .sk-tags-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+      }
+      .sk-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 7px 13px;
+        border-radius: 6px;
+        background: #fff;
+        border: 1px solid rgba(26, 106, 219, 0.13);
+        color: var(--dk);
+        font-size: 0.81rem;
+        font-weight: 600;
+        transition: all 0.2s;
+        box-shadow: 0 1px 4px rgba(10, 30, 70, 0.05);
+        cursor: default;
+      }
+      .sk-tag:hover {
+        border-color: rgba(26, 106, 219, 0.4);
+        box-shadow: 0 4px 16px rgba(26, 106, 219, 0.12);
+        transform: translateY(-2px);
+      }
+      .sk-tag img {
+        width: 17px;
+        height: 17px;
+        object-fit: contain;
+        flex-shrink: 0;
+      }
+      .sk-tag .ico {
+        width: 17px;
+        height: 17px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .sk-tag .ico svg {
+        width: 17px;
+        height: 17px;
+      }
+      .skills-intro {
+        font-size: 0.9rem;
+        color: var(--sf);
+        line-height: 1.85;
+        max-width: 500px;
+        margin-top: -2.4rem;
+        margin-bottom: 3rem;
+      }
+
+      /* EDUCATION */
+      #education {
+        background: var(--ink);
+      }
+      .etl {
+        position: relative;
+        padding-left: 2.4rem;
+      }
+      .etl::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 12px;
+        bottom: 12px;
+        width: 1px;
+        background: linear-gradient(to bottom, var(--blue), transparent);
+      }
+      .ei {
+        position: relative;
+        margin-bottom: 1.5rem;
+        padding: 1.7rem 2rem;
+        background: var(--ink2);
+        border: 1px solid var(--bdrw);
+        border-radius: 3px;
+        transition:
+          border-color 0.25s,
+          transform 0.25s;
+      }
+      .ei:hover {
+        border-color: var(--bdr);
+        transform: translateX(4px);
+      }
+      .ei::before {
+        content: "";
+        position: absolute;
+        left: -2.85rem;
+        top: 1.9rem;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--ink);
+        border: 2px solid var(--blue);
+      }
+      .eyr {
+        font-family: "Fira Code", monospace;
+        font-size: 0.69rem;
+        color: var(--blue);
+        margin-bottom: 0.45rem;
+      }
+      .edeg {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+      }
+      .esch {
+        font-size: 0.85rem;
+        color: var(--w70);
+      }
+      .egr {
+        display: inline-block;
+        margin-top: 0.7rem;
+        font-family: "Fira Code", monospace;
+        font-size: 0.69rem;
+        background: rgba(79, 158, 255, 0.09);
+        border: 1px solid var(--bdr);
+        color: var(--blue);
+        padding: 3px 11px;
+        border-radius: 2px;
+      }
+
+      /* EXPERIENCE */
+      #experience {
+        background: var(--ink2);
+      }
+      .exc {
+        display: flex;
+        flex-direction: column;
+        gap: 1.3rem;
+      }
+      .excard {
+        background: var(--ink3);
+        border: 1px solid var(--bdrw);
+        border-radius: 4px;
+        overflow: hidden;
+        transition: border-color 0.25s;
+      }
+      .excard:hover {
+        border-color: var(--bdr);
+      }
+      .exct {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        padding: 1.6rem 2rem 1.2rem;
+        border-bottom: 1px solid var(--bdrw);
+        flex-wrap: wrap;
+        gap: 0.7rem;
+      }
+      .exrl {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+      }
+      .exco {
+        font-family: "Fira Code", monospace;
+        font-size: 0.77rem;
+        color: var(--blue);
+      }
+      .exper {
+        font-family: "Fira Code", monospace;
+        font-size: 0.69rem;
+        color: var(--w40);
+        background: var(--w05);
+        border: 1px solid var(--bdrw);
+        padding: 3px 11px;
+        border-radius: 2px;
+        white-space: nowrap;
+      }
+      .exb {
+        padding: 1.3rem 2rem 1.7rem;
+      }
+      .exul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .exul li {
+        font-size: 0.86rem;
+        color: var(--w70);
+        line-height: 1.75;
+        padding-left: 1.4rem;
+        position: relative;
+      }
+      .exul li::before {
+        content: "-->";
+        position: absolute;
+        left: 0;
+        color: var(--blue);
+        font-size: 0.72rem;
+        font-family: "Fira Code", monospace;
+      }
+
+      /* PROJECTS — LIGHT */
+      #projects {
+        background: var(--light2);
+      }
+      .pg {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.1rem;
+      }
+      @media (max-width: 580px) {
+        .pg {
+          grid-template-columns: 1fr;
+        }
+      }
+      .pc {
+        background: #fff;
+        border: 1px solid rgba(26, 106, 219, 0.12);
+        border-radius: 6px;
+        padding: 1.8rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+        transition: all 0.25s;
+        box-shadow: 0 2px 10px rgba(10, 30, 70, 0.06);
+      }
+      .pc:hover {
+        border-color: rgba(26, 106, 219, 0.35);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(26, 106, 219, 0.12);
+      }
+      .pnum {
+        font-family: "Fira Code", monospace;
+        font-size: 0.66rem;
+        color: var(--sf);
+      }
+      .pname {
+        font-size: 0.98rem;
+        font-weight: 800;
+        line-height: 1.3;
+        color: var(--dk);
+      }
+      .pper {
+        font-family: "Fira Code", monospace;
+        font-size: 0.67rem;
+        color: #1a6adb;
+      }
+      .pdesc {
+        font-size: 0.83rem;
+        color: var(--md);
+        line-height: 1.75;
+        flex: 1;
+      }
+      .pstack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        margin-top: auto;
+      }
+      .ptag {
+        font-family: "Fira Code", monospace;
+        font-size: 0.66rem;
+        padding: 3px 9px;
+        border-radius: 3px;
+        background: rgba(26, 106, 219, 0.07);
+        border: 1px solid rgba(26, 106, 219, 0.16);
+        color: #1a6adb;
+      }
+
+      /* FREELANCING */
+      #freelancing {
+        background: var(--ink);
+      }
+      .fl-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: var(--bdrw);
+        border: 1px solid var(--bdrw);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 3.5rem;
+      }
+      @media (max-width: 660px) {
+        .fl-stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .fls {
+        background: var(--ink2);
+        padding: 1.7rem 1.3rem;
+        text-align: center;
+      }
+      .flsn {
+        font-family: "Fira Code", monospace;
+        font-size: 1.85rem;
+        font-weight: 500;
+        color: var(--blue);
+        display: block;
+        line-height: 1;
+        letter-spacing: -1px;
+      }
+      .flsl {
+        font-size: 0.74rem;
+        color: var(--w40);
+        margin-top: 0.35rem;
+        display: block;
+        line-height: 1.4;
+      }
+      .flc {
+        background: var(--ink2);
+        border: 1px solid var(--bdrw);
+        border-radius: 4px;
+        margin-bottom: 1.6rem;
+        overflow: hidden;
+        transition: border-color 0.3s;
+      }
+      .flc:hover {
+        border-color: var(--bdr);
+      }
+      .flc-feat {
+        border-color: rgba(79, 158, 255, 0.3);
+      }
+      .flch {
+        padding: 2rem 2.5rem 1.7rem;
+        border-bottom: 1px solid var(--bdrw);
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+      .flch-feat {
+        background: rgba(79, 158, 255, 0.04);
+      }
+      @media (max-width: 680px) {
+        .flch {
+          padding: 1.5rem;
+        }
+      }
+      .flpnum {
+        font-family: "Fira Code", monospace;
+        font-size: 0.65rem;
+        color: var(--w40);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 0.55rem;
+      }
+      .flpnum-feat {
+        color: var(--blue);
+      }
+      .flpname {
+        font-size: 1.4rem;
+        font-weight: 800;
+        letter-spacing: -0.7px;
+        color: var(--white);
+        line-height: 1.2;
+        margin-bottom: 0.75rem;
+      }
+      .flchips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .flchip {
+        font-family: "Fira Code", monospace;
+        font-size: 0.65rem;
+        padding: 4px 11px;
+        border-radius: 2px;
+        background: var(--w05);
+        border: 1px solid var(--bdrw);
+        color: var(--w40);
+      }
+      .flchip.hi {
+        background: rgba(79, 158, 255, 0.08);
+        border-color: var(--bdr);
+        color: var(--blue);
+      }
+      .flimpact {
+        background: var(--ink3);
+        border: 1px solid var(--bdr);
+        border-radius: 3px;
+        padding: 1.2rem 1.8rem;
+        text-align: center;
+        min-width: 140px;
+        flex-shrink: 0;
+      }
+      .flimpact-feat {
+        background: rgba(79, 158, 255, 0.08);
+        border-color: rgba(79, 158, 255, 0.4);
+      }
+      .flival {
+        font-family: "Fira Code", monospace;
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--blue);
+        display: block;
+        line-height: 1;
+      }
+      .flilbl {
+        font-size: 0.71rem;
+        color: var(--w40);
+        display: block;
+        margin-top: 0.4rem;
+        line-height: 1.4;
+      }
+      .flbody {
+        display: grid;
+        grid-template-columns: 1fr 285px;
+      }
+      @media (max-width: 860px) {
+        .flbody {
+          grid-template-columns: 1fr;
+        }
+      }
+      .flmain {
+        padding: 2rem 2.5rem;
+        border-right: 1px solid var(--bdrw);
+      }
+      @media (max-width: 860px) {
+        .flmain {
+          border-right: none;
+          border-bottom: 1px solid var(--bdrw);
+          padding: 1.5rem;
+        }
+      }
+      .flside {
+        padding: 2rem;
+      }
+      @media (max-width: 860px) {
+        .flside {
+          padding: 1.5rem;
+        }
+      }
+      .flbl {
+        font-family: "Fira Code", monospace;
+        font-size: 0.65rem;
+        color: var(--w40);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .flbl::before {
+        content: "";
+        width: 10px;
+        height: 1px;
+        background: var(--blue);
+      }
+      .flprob {
+        font-size: 0.88rem;
+        color: var(--w70);
+        line-height: 1.85;
+        margin-bottom: 1.7rem;
+      }
+      .flfts {
+        display: flex;
+        flex-direction: column;
+        gap: 1.05rem;
+      }
+      .flft {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: 0.8rem;
+        align-items: start;
+      }
+      .flftnum {
+        width: 28px;
+        height: 28px;
+        border-radius: 2px;
+        background: rgba(79, 158, 255, 0.09);
+        border: 1px solid var(--bdr);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Fira Code", monospace;
+        font-size: 0.61rem;
+        color: var(--blue);
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .flftname {
+        font-size: 0.86rem;
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 0.2rem;
+      }
+      .flftdesc {
+        font-size: 0.8rem;
+        color: var(--w70);
+        line-height: 1.72;
+      }
+      .flstklist {
+        display: flex;
+        flex-direction: column;
+        gap: 0.36rem;
+        margin-top: 0.5rem;
+      }
+      .flstkrow {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        font-family: "Fira Code", monospace;
+        font-size: 0.76rem;
+        color: var(--w70);
+      }
+      .fldot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .flocs {
+        display: flex;
+        flex-direction: column;
+        gap: 0.38rem;
+        margin-top: 0.5rem;
+      }
+      .floc {
+        display: flex;
+        align-items: baseline;
+        gap: 0.55rem;
+        padding: 0.52rem 0.7rem;
+        background: var(--ink3);
+        border-radius: 2px;
+        font-size: 0.8rem;
+        color: var(--w70);
+        line-height: 1.45;
+      }
+      .flarr {
+        font-family: "Fira Code", monospace;
+        color: var(--blue);
+        font-size: 0.77rem;
+        flex-shrink: 0;
+        font-weight: 700;
+      }
+      .floc strong {
+        color: var(--white);
+        font-weight: 700;
+      }
+
+      /* ACHIEVEMENTS — LIGHT */
+      #achievements {
+        background: var(--light);
+      }
+      .achg {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 0.85rem;
+      }
+      .achc {
+        background: #fff;
+        border: 1px solid rgba(26, 106, 219, 0.12);
+        border-radius: 6px;
+        padding: 1.3rem 1.4rem;
+        display: flex;
+        gap: 0.9rem;
+        align-items: start;
+        transition: all 0.25s;
+        box-shadow: 0 1px 4px rgba(10, 30, 70, 0.05);
+      }
+      .achc:hover {
+        border-color: rgba(26, 106, 219, 0.35);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(26, 106, 219, 0.1);
+      }
+      .achico {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .achn {
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: var(--dk);
+        margin-bottom: 0.2rem;
+        line-height: 1.3;
+      }
+      .achs {
+        font-size: 0.74rem;
+        color: var(--sf);
+        line-height: 1.5;
+      }
+
+      /* CONTACT */
+      #contact {
+        background: var(--ink2);
+      }
+      .contact-wrap {
+        max-width: 940px;
+        margin: 0 auto;
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.65fr;
+        gap: 3.5rem;
+        align-items: start;
+      }
+      @media (max-width: 820px) {
+        .contact-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+      .ci-head {
+        font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 0.8rem;
+      }
+      .ci-sub {
+        font-size: 0.9rem;
+        color: var(--w70);
+        line-height: 1.85;
+        margin-bottom: 2rem;
+      }
+      .ci-label {
+        font-family: "Fira Code", monospace;
+        font-size: 0.65rem;
+        color: var(--w40);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 0.9rem;
+      }
+      .cemail-lnk {
+        display: inline-block;
+        font-family: "Fira Code", monospace;
+        font-size: 0.95rem;
+        color: var(--blue);
+        text-decoration: none;
+        margin-bottom: 1.5rem;
+        transition: opacity 0.2s;
+      }
+      .cemail-lnk:hover {
+        opacity: 0.7;
+      }
+      .clinks {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-bottom: 2rem;
+      }
+      .clink {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-family: "Fira Code", monospace;
+        font-size: 0.73rem;
+        color: var(--w70);
+        text-decoration: none;
+        padding: 8px 16px;
+        border: 1px solid var(--bdrw);
+        border-radius: 3px;
+        transition: all 0.22s;
+      }
+      .clink:hover {
+        border-color: var(--bdr);
+        color: var(--blue);
+        transform: translateY(-2px);
+      }
+      .clink svg {
+        width: 13px;
+        height: 13px;
+        fill: currentColor;
+      }
+      .ci-avail {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: rgba(34, 197, 94, 0.06);
+        border: 1px solid rgba(34, 197, 94, 0.2);
+        border-radius: 3px;
+        padding: 0.9rem 1.1rem;
+      }
+      .ci-avail-text {
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 0.15rem;
+      }
+      .ci-avail-sub {
+        font-size: 0.76rem;
+        color: var(--w70);
+      }
+
+      /* FORM */
+      .contact-form {
+        background: var(--ink3);
+        border: 1px solid var(--bdrw);
+        border-radius: 4px;
+        padding: 2rem;
+      }
+      .cf-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      @media (max-width: 480px) {
+        .cf-row {
+          grid-template-columns: 1fr;
+        }
+      }
+      .cf-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.38rem;
+        margin-bottom: 0.9rem;
+      }
+      .cf-label {
+        font-family: "Fira Code", monospace;
+        font-size: 0.64rem;
+        color: var(--w40);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .cf-input {
+        background: var(--ink2);
+        border: 1px solid var(--bdrw);
+        border-radius: 3px;
+        padding: 10px 14px;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 0.87rem;
+        color: var(--white);
+        outline: none;
+        transition: border-color 0.2s;
+        width: 100%;
+      }
+      .cf-input:focus {
+        border-color: var(--blue);
+      }
+      .cf-input::placeholder {
+        color: rgba(255, 255, 255, 0.25);
+      }
+      textarea.cf-input {
+        resize: vertical;
+        min-height: 118px;
+      }
+      .cf-btn {
+        width: 100%;
+        padding: 13px;
+        background: var(--blue);
+        color: var(--ink);
+        border: none;
+        border-radius: 3px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.22s;
+        margin-top: 0.5rem;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        letter-spacing: 0.01em;
+      }
+      .cf-btn:hover:not(:disabled) {
+        background: var(--blue-lt);
+        transform: translateY(-1px);
+      }
+      .cf-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .cf-status {
+        margin-top: 1rem;
+        padding: 0.75rem 1rem;
+        border-radius: 3px;
+        font-size: 0.83rem;
+        font-family: "Fira Code", monospace;
+        display: none;
+      }
+      .cf-status.ok {
+        background: rgba(34, 197, 94, 0.08);
+        border: 1px solid rgba(34, 197, 94, 0.25);
+        color: #4ade80;
+      }
+      .cf-status.err {
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.25);
+        color: #f87171;
+      }
+
+      /* FOOTER */
+      footer {
+        padding: 1.5rem 6%;
+        border-top: 1px solid var(--bdrw);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      footer p {
+        font-family: "Fira Code", monospace;
+        font-size: 0.69rem;
+        color: var(--w40);
+      }
+      footer span {
+        color: var(--blue);
+      }
+      @media (max-width: 680px) {
+        section {
+          padding: 72px 5%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cur"></div>
+    <div id="ring"></div>
+
+    <!-- NAV -->
+    <nav>
+      <div class="logo"><em>juzar</em>.kagdi()</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#freelancing">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="ham" id="ham" aria-label="menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="mob" id="mob">
+      <a href="#home">Home</a><a href="#about">About</a
+      ><a href="#skills">Skills</a> <a href="#education">Education</a
+      ><a href="#experience">Experience</a> <a href="#projects">Projects</a
+      ><a href="#freelancing">Freelance</a><a href="#contact">Contact</a>
+    </div>
+
+    <!-- HERO -->
+    <section id="home">
+      <div class="hbg">
+        <div class="hblob1"></div>
+        <div class="hblob2"></div>
+        <div class="hgrid"></div>
+      </div>
+      <div class="hleft">
+        <div class="htag">
+          <span class="blink"></span>&nbsp;Available for opportunities
+        </div>
+        <h1 class="hname">
+          <span class="n1">Juzar</span><span class="n2">Kagdi.</span>
+        </h1>
+        <p class="hsub">
+          Full Stack Developer specializing in Java, Spring Boot &amp; modern
+          JavaScript frameworks. Building scalable, production-grade
+          applications that solve real business problems.
+        </p>
+        <div class="htyped-wrap">
+          <span id="typed">Java Spring Boot Expert</span
+          ><span class="tcursor">|</span>
+        </div>
+        <div class="hbtns">
+          <a href="#contact" class="btn btn-p">Get in Touch &rarr;</a>
+          <a href="assets/JUZAR_KAGDI.pdf" download class="btn btn-o"
+            >Download CV</a
+          >
+        </div>
+      </div>
+      <div class="hright">
+        <div class="pwrap">
+          <div class="pfr"></div>
+          <div class="pfr2"></div>
+          <img src="assets/PROFILE.png" alt="Juzar Kagdi" />
+          <div class="pbadge pb1">
+            <span class="blink"></span>&nbsp;Open to Work
+          </div>
+          <div class="pbadge pb2">20+ Projects &#10022;</div>
+        </div>
+      </div>
+      <div class="scue">
+        <div class="sline"></div>
+        <span class="slbl">scroll down</span>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="ey">01&nbsp;&nbsp;About</div>
+      <h2 class="st">Who I <span>Am</span></h2>
+      <div class="ag">
+        <div class="rvl">
+          <div class="aphoto-wrap">
+            <img src="assets/PROFILE.png" alt="Juzar Kagdi" class="aphoto" />
+            <div class="apbrd"></div>
+            <div class="aplbl">MCA @ CHARUSAT</div>
+          </div>
+        </div>
+        <div class="rvr">
+          <p>
+            I'm a passionate Full Stack Developer from Bharuch, Gujarat,
+            currently pursuing my Master of Computer Application at CHARUSAT
+            University. I specialize in building enterprise-grade applications
+            using Java, Spring Boot, and modern JavaScript frameworks.
+          </p>
+          <p>
+            With hands-on experience as a Backend Lead at NAVAERA and 20+
+            freelance projects delivered alongside academics, I've proven I can
+            manage real client deliverables under pressure — graduating with
+            First Class with Distinction.
+          </p>
+          <p>
+            I thrive on turning complex problems into clean, performant software
+            — from a full POS system for a retail client to a real-time
+            university platform with AI integration.
+          </p>
+          <div class="facts">
+            <div class="fact">
+              <div class="fk">Name</div>
+              <div class="fv">Juzar Kagdi</div>
+            </div>
+            <div class="fact">
+              <div class="fk">Location</div>
+              <div class="fv">Bharuch, Gujarat</div>
+            </div>
+            <div class="fact">
+              <div class="fk">Email</div>
+              <div class="fv">juzarkagdi53@gmail.com</div>
+            </div>
+            <div class="fact">
+              <div class="fk">Phone</div>
+              <div class="fv">+91 79849 15566</div>
+            </div>
+            <div class="fact">
+              <div class="fk">Degree</div>
+              <div class="fv">MCA (Pursuing)</div>
+            </div>
+            <div class="fact">
+              <div class="fk">Status</div>
+              <div class="fv">Open to Work</div>
+            </div>
+          </div>
+          <a href="assets/JUZAR_KAGDI_08_04.pdf" download class="btn btn-p"
+            >Download Resume &rarr;</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS — LIGHT -->
+    <section id="skills">
+      <div class="ey light-ey rv">02&nbsp;&nbsp;Skills</div>
+      <h2 class="st light-st rv2">Technical <span>Stack</span></h2>
+      <p class="skills-intro rv3">
+        Every tool used in production — from enterprise backends to cloud
+        deployments.
+      </p>
+      <div class="sk-cats">
+        <div class="sk-cat-row rv">
+          <div class="sk-cat-label">Languages</div>
+          <div class="sk-tags-wrap">
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+                alt="Java" />Java</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                alt="JS" />JavaScript</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+                alt="TS" />TypeScript</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
+                alt="PHP" />PHP</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg"
+                alt="Go" />Golang</span
+            >
+          </div>
+        </div>
+
+        <div class="sk-cat-row rv">
+          <div class="sk-cat-label">Frameworks</div>
+          <div class="sk-tags-wrap">
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg"
+                alt="Spring" />Spring Boot</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg"
+                alt="Laravel" />Laravel</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg"
+                alt="Vue" />Vue.js</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nuxtjs/nuxtjs-original.svg"
+                alt="Nuxt" />Nuxt.js</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                alt="React" />React.js</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg"
+                alt="Angular" />AngularJS</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+                alt="Node" />Node.js</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
+                alt="Express" />Express.js</span
+            >
+          </div>
+        </div>
+
+        <div class="sk-cat-row rv">
+          <div class="sk-cat-label">Databases</div>
+          <div class="sk-tags-wrap">
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+                alt="MySQL" />MySQL</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg"
+                alt="Oracle" />Oracle</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                alt="MongoDB" />MongoDB</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
+                alt="Postgres" />PostgreSQL</span
+            >
+            <span class="sk-tag"
+              ><span class="ico"
+                ><svg viewBox="0 0 24 24">
+                  <rect width="24" height="24" rx="4" fill="#FDEE21" />
+                  <text
+                    x="12"
+                    y="17"
+                    text-anchor="middle"
+                    font-size="9"
+                    font-weight="800"
+                    fill="#000"
+                    font-family="monospace">
+                    CH
+                  </text>
+                </svg></span
+              >ClickHouse</span
+            >
+          </div>
+        </div>
+
+        <div class="sk-cat-row rv">
+          <div class="sk-cat-label">Cloud &amp; APIs</div>
+          <div class="sk-tags-wrap">
+            <span class="sk-tag"
+              ><img
+                src="assets/ec2.jpg"
+                alt="AWS" />AWS EC2</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="assets/s3.png"
+                alt="AWS" />AWS S3</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="assets/iam.png"
+                alt="AWS" />AWS IAM</span
+            >
+            <span class="sk-tag"
+              ><span class="ico"
+                ><svg viewBox="0 0 24 24" fill="none">
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="9"
+                    stroke="#1a6adb"
+                    stroke-width="2" />
+                  <path
+                    d="M6 12h12M12 6v12"
+                    stroke="#1a6adb"
+                    stroke-width="2"
+                    stroke-linecap="round" /></svg></span
+              >RESTful APIs</span
+            >
+            <span class="sk-tag"
+              ><span class="ico"
+                ><svg viewBox="0 0 24 24" fill="none">
+                  <rect
+                    x="3"
+                    y="5"
+                    width="18"
+                    height="14"
+                    rx="2"
+                    stroke="#1a6adb"
+                    stroke-width="2" />
+                  <path
+                    d="M8 10h8M8 14h5"
+                    stroke="#1a6adb"
+                    stroke-width="2"
+                    stroke-linecap="round" /></svg></span
+              >JDBC</span
+            >
+          </div>
+        </div>
+
+        <div class="sk-cat-row rv">
+          <div class="sk-cat-label">Tools</div>
+          <div class="sk-tags-wrap">
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+                alt="Git" />Git</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+                alt="GitHub" />GitHub</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg"
+                alt="Jira" />Jira</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="assets/gr.png"
+                alt="Gradle" />Gradle</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg"
+                alt="Maven" />Maven</span
+            >
+            <span class="sk-tag"
+              ><img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg"
+                alt="Postman" />Postman</span
+            >
+          </div>
+        </div>
+
+        <div class="sk-cat-row rv">
+          <div class="sk-cat-label">Methodology</div>
+          <div class="sk-tags-wrap">
+            <span class="sk-tag"
+              ><span class="ico"
+                ><svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M4 6h16M4 10h10M4 14h13M4 18h8"
+                    stroke="#1a6adb"
+                    stroke-width="2"
+                    stroke-linecap="round" /></svg></span
+              >Agile / Scrum</span
+            >
+            <span class="sk-tag"
+              ><span class="ico"
+                ><svg viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="3" fill="#1a6adb" />
+                  <path
+                    d="M9 3h6M9 21h6M3 9v6M21 9v6"
+                    stroke="#1a6adb"
+                    stroke-width="2"
+                    stroke-linecap="round" /></svg></span
+              >Microservices</span
+            >
+            <span class="sk-tag"
+              ><span class="ico"
+                ><svg viewBox="0 0 24 24" fill="none">
+                  <polyline
+                    points="9,11 12,14 22,4"
+                    stroke="#1a6adb"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path
+                    d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"
+                    stroke="#1a6adb"
+                    stroke-width="2"
+                    stroke-linecap="round" /></svg></span
+              >Code Review</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="ey">03&nbsp;&nbsp;Education</div>
+      <h2 class="st">Academic <span>Journey</span></h2>
+      <div class="etl">
+        <div class="ei rv">
+          <div class="eyr">June 2024 &mdash; Present</div>
+          <div class="edeg">Master of Computer Application</div>
+          <div class="esch">CHARUSAT University, Changa</div>
+        </div>
+        <div class="ei rv">
+          <div class="eyr">April 2021 &mdash; April 2024</div>
+          <div class="edeg">Bachelor of Computer Applications</div>
+          <div class="esch">
+            M.K. Institute of Computer Studies, VNSGU, Bharuch
+          </div>
+          <span class="egr"
+            >SGPA 9.35 &mdash; First Class with Distinction</span
+          >
+        </div>
+        <div class="ei rv">
+          <div class="eyr">12th &mdash; GSEB</div>
+          <div class="edeg">Higher Secondary Certificate</div>
+          <div class="esch">GSEB Board</div>
+          <span class="egr">86.5%</span>
+        </div>
+        <div class="ei rv">
+          <div class="eyr">10th &mdash; CBSE</div>
+          <div class="edeg">Secondary School Certificate</div>
+          <div class="esch">CBSE Board</div>
+          <span class="egr">90.4%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="projects">
+      <div class="ey light-ey">04&nbsp;&nbsp;Experience</div>
+      <h2 class="st light-st">Work <span>history</span></h2>
+      <div class="exc">
+        <div class="excard rv">
+          <div class="exct">
+            <div>
+              <div class="exrl">
+                Java Full Stack Developer Intern &rarr; Backend Lead
+              </div>
+              <div class="exco">NAVAERA</div>
+            </div>
+            <div class="exper">Intern &rarr; Lead</div>
+          </div>
+          <div class="exb">
+            <ul class="exul">
+              <li>
+                Led backend development as Backend Lead — guided a team of
+                interns, drove task execution, and enforced scalable,
+                high-quality code practices across the team.
+              </li>
+              <li>
+                Built full-stack applications using Java, Spring Boot, Vue.js,
+                Nuxt.js, and AngularJS, integrating RESTful APIs for seamless
+                frontend-backend communication.
+              </li>
+              <li>
+                Structured multi-module Gradle projects enabling modular
+                architecture and scalable enterprise application development.
+              </li>
+              <li>
+                Worked in Agile/Scrum using Git, Stash, and Jira; mentored team
+                members through code reviews and development lifecycle best
+                practices.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="excard rv">
+          <div class="exct">
+            <div>
+              <div class="exrl">Freelance Full Stack Developer</div>
+              <div class="exco">Self-Employed</div>
+            </div>
+            <div class="exper">Ongoing</div>
+          </div>
+          <div class="exb">
+            <ul class="exul">
+              <li>
+                Delivered 20+ production projects for clients across retail,
+                logistics, education, and general web — all shipped on time
+                alongside full academic commitments.
+              </li>
+              <li>
+                Built and deployed an enterprise POS system managing 1,000+ SKUs
+                — improved billing efficiency by 40%.
+              </li>
+              <li>
+                Developed a cargo management platform that reduced manual
+                tracking effort by 35%.
+              </li>
+              <li>
+                Optimized API performance across multiple apps, reducing
+                response time by 30%.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS — LIGHT (Academic Only)
+<section id="projects">
+  <div class="ey light-ey">05&nbsp;&nbsp;Projects</div>
+  <h2 class="st light-st">Academic <span>Projects</span></h2>
+  <div class="pg">
+    <div class="pc rv">
+      <div class="pnum">// 01 &mdash; Academic Build</div>
+      <div class="pname">Bidirectional ClickHouse Data Ingestion Tool</div>
+      <div class="pper">Apr 2025 &ndash; May 2025</div>
+      <p class="pdesc">Full-stack data ingestion platform enabling bidirectional data transfer between ClickHouse and flat files. Features a dynamic UI with source/target selection, column filtering, and schema preview — backend ingestion via Java Servlets and JDBC for automation reliability and reduced manual data handling.</p>
+      <div class="pstack">
+        <span class="ptag">Java</span><span class="ptag">Servlets</span><span class="ptag">JSP</span><span class="ptag">ClickHouse</span><span class="ptag">JDBC</span><span class="ptag">Tomcat</span><span class="ptag">HTML/CSS/JS</span>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+    <!-- FREELANCING -->
+    <section id="freelancing">
+      <div class="ey">05&nbsp;&nbsp;Freelance Work</div>
+      <h2 class="st">Client <span>Projects</span></h2>
+      <p
+        style="
+          color: var(--w70);
+          font-size: 0.9rem;
+          line-height: 1.85;
+          max-width: 560px;
+          margin-bottom: 3rem;
+          margin-top: -2.5rem;
+        ">
+        20+ production projects delivered for real clients alongside full-time
+        academics. Every project shipped on time with measurable business
+        impact.
+      </p>
+
+      <!-- STATS -->
+      <div class="fl-stats rv">
+        <div class="fls">
+          <span class="flsn">20+</span
+          ><span class="flsl">Client Projects<br />Shipped</span>
+        </div>
+        <div class="fls">
+          <span class="flsn">40%</span
+          ><span class="flsl">Billing Efficiency<br />Increase</span>
+        </div>
+        <div class="fls">
+          <span class="flsn">35%</span
+          ><span class="flsl">Manual Effort<br />Reduction</span>
+        </div>
+        <div class="fls">
+          <span class="flsn">30%</span
+          ><span class="flsl">API Response<br />Time Faster</span>
+        </div>
+      </div>
+
+      <!-- ★ CAMPUS SYNC — FEATURED -->
+      <div class="flc flc-feat rv">
+        <div class="flch flch-feat">
+          <div>
+            <div class="flpnum flpnum-feat">
+              &#9733;&nbsp;&nbsp;Featured Project &nbsp;/&nbsp; EdTech Platform
+            </div>
+            <div class="flpname">
+              Campus Sync<br /><span
+                style="font-size: 0.95rem; font-weight: 500; color: var(--w70)"
+                >Full-Stack University ERP &amp; Communication Suite</span
+              >
+            </div>
+            <div class="flchips">
+              <span class="flchip">&#127979; University Client</span>
+              <span class="flchip">&#128100; 200+ Active Users</span>
+              <span class="flchip hi"
+                >Live &mdash; Hosted &amp; Maintained</span
+              >
+            </div>
+          </div>
+          <div class="flimpact flimpact-feat">
+            <span class="flival">200+</span>
+            <span class="flilbl">Active Users<br />in Production</span>
+          </div>
+        </div>
+        <div class="flbody">
+          <div class="flmain">
+            <div class="flbl">Overview</div>
+            <p class="flprob">
+              Campus Sync is a production-grade university ERP and communication
+              platform built for a college client. It digitizes and unifies all
+              academic and administrative workflows for 200+ users across
+              departments, with real-time data handling for 1,000+ records. The
+              platform is actively hosted, maintained, and used in daily
+              operations.
+            </p>
+            <div class="flbl">Key Modules</div>
+            <div class="flfts">
+              <div class="flft">
+                <div class="flftnum">01</div>
+                <div>
+                  <div class="flftname">Mass Mailing System</div>
+                  <div class="flftdesc">
+                    Bulk email broadcasting to students, staff, and departments
+                    — announcements, exam notices, and event invites sent to
+                    targeted user groups with delivery tracking via Nodemailer.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">02</div>
+                <div>
+                  <div class="flftname">Real-Time Chat &amp; Messaging</div>
+                  <div class="flftdesc">
+                    Live messaging between students and faculty using Socket.io
+                    — department channels, private DMs, and file sharing for
+                    instant internal academic communication.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">03</div>
+                <div>
+                  <div class="flftname">AI Chatbot Integration</div>
+                  <div class="flftdesc">
+                    Embedded AI assistant to handle student queries about
+                    schedules, results, and campus processes — significantly
+                    reducing repetitive support load on admin staff.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">04</div>
+                <div>
+                  <div class="flftname">Attendance &amp; Exam Scheduling</div>
+                  <div class="flftdesc">
+                    Automated attendance tracking, timetable generation, and
+                    exam scheduling across all departments — eliminating manual
+                    coordination overhead entirely.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">05</div>
+                <div>
+                  <div class="flftname">Job Portal &amp; Placement Module</div>
+                  <div class="flftdesc">
+                    Campus-facing job board where companies post openings,
+                    students apply, and placement coordinators track
+                    applications — full end-to-end placement workflow.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flside">
+            <div class="flbl">Tech Stack</div>
+            <div class="flstklist" style="margin-bottom: 1.5rem">
+              <div class="flstkrow">
+                <span class="fldot" style="background: #61dafb"></span>React.js
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #68a063"></span>Node.js
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #f89820"></span
+                >Express.js
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #4ea94b"></span>MongoDB
+              </div>
+              <div class="flstkrow">
+                <span
+                  class="fldot"
+                  style="
+                    background: #010101;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                  "></span
+                >Socket.io
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #4f9eff"></span>AI
+                Chatbot API
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #e34c26"></span
+                >Nodemailer
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #7952b3"></span>Bootstrap
+              </div>
+            </div>
+            <div class="flbl">Status &amp; Outcomes</div>
+            <div class="flocs">
+              <div class="floc">
+                <span class="flarr">&#10003;</span
+                ><span
+                  ><strong>Live</strong> &mdash; hosted &amp; maintained</span
+                >
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8593;</span
+                ><span><strong>200+</strong> active users daily</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8593;</span
+                ><span>1,000+ records real-time</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8593;</span
+                ><span>5 modules in production</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8595;</span
+                ><span>Admin workload reduced significantly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POS SYSTEM -->
+      <div class="flc rv">
+        <div class="flch">
+          <div>
+            <div class="flpnum">Project 02 &nbsp;/&nbsp; Retail Software</div>
+            <div class="flpname">
+              Enterprise POS System<br />for Garment Showroom
+            </div>
+            <div class="flchips">
+              <span class="flchip">&#127978; Retail Client</span>
+              <span class="flchip">&#128205; Bharuch, Gujarat</span>
+              <span class="flchip hi">Freelance &mdash; Delivered</span>
+            </div>
+          </div>
+          <div class="flimpact">
+            <span class="flival">40%</span>
+            <span class="flilbl">Billing Efficiency<br />Improvement</span>
+          </div>
+        </div>
+        <div class="flbody">
+          <div class="flmain">
+            <div class="flbl">The Problem</div>
+            <p class="flprob">
+              The client managed 1,000+ garment SKUs through spreadsheets and
+              paper records. Billing was slow and error-prone, inventory had
+              zero real-time visibility, and sales data was impossible to
+              analyze. They needed one unified system to run the entire shop
+              floor.
+            </p>
+            <div class="flbl">What I Built</div>
+            <div class="flfts">
+              <div class="flft">
+                <div class="flftnum">01</div>
+                <div>
+                  <div class="flftname">Barcode Generation &amp; Scanning</div>
+                  <div class="flftdesc">
+                    Auto-generated barcodes for every SKU with scanner support
+                    at checkout — instant product lookup, zero manual entry
+                    errors.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">02</div>
+                <div>
+                  <div class="flftname">Real-Time Inventory Tracking</div>
+                  <div class="flftdesc">
+                    Live stock management across 1,000+ products with low-stock
+                    alerts, category filtering, and batch update support.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">03</div>
+                <div>
+                  <div class="flftname">Billing &amp; Invoice Engine</div>
+                  <div class="flftdesc">
+                    One-click bill generation with GST computation, discount
+                    handling, and printable invoice output.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">04</div>
+                <div>
+                  <div class="flftname">Sales Analytics Dashboard</div>
+                  <div class="flftdesc">
+                    Visual dashboards for daily/weekly/monthly sales, top
+                    products, revenue trends, and exportable reports.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flside">
+            <div class="flbl">Tech Stack</div>
+            <div class="flstklist" style="margin-bottom: 1.5rem">
+              <div class="flstkrow">
+                <span class="fldot" style="background: #f89820"></span>Java
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #6db33f"></span>Spring
+                Boot
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #4f9eff"></span>RESTful
+                APIs
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #00758f"></span>MySQL
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #f0db4f"></span
+                >JavaScript
+              </div>
+            </div>
+            <div class="flbl">Outcomes</div>
+            <div class="flocs">
+              <div class="floc">
+                <span class="flarr">&#8593;</span
+                ><span><strong>40%</strong> billing efficiency gain</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8595;</span
+                ><span>Near-zero checkout errors</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8593;</span
+                ><span>Full visibility on 1,000+ SKUs</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8593;</span
+                ><span>Data-driven sales decisions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARGO -->
+      <div class="flc rv">
+        <div class="flch">
+          <div>
+            <div class="flpnum">
+              Project 03 &nbsp;/&nbsp; Logistics Software
+            </div>
+            <div class="flpname">Cargo Management<br />System</div>
+            <div class="flchips">
+              <span class="flchip">&#128674; Logistics Client</span>
+              <span class="flchip">&#128205; Gujarat</span>
+              <span class="flchip hi">Freelance &mdash; Delivered</span>
+            </div>
+          </div>
+          <div class="flimpact">
+            <span class="flival">35%</span>
+            <span class="flilbl">Manual Tracking<br />Effort Reduced</span>
+          </div>
+        </div>
+        <div class="flbody">
+          <div class="flmain">
+            <div class="flbl">The Problem</div>
+            <p class="flprob">
+              A logistics company tracked all shipments via phone calls and
+              paper logs — no unified view, delays went undetected, and reports
+              required hours of manual aggregation.
+            </p>
+            <div class="flbl">What I Built</div>
+            <div class="flfts">
+              <div class="flft">
+                <div class="flftnum">01</div>
+                <div>
+                  <div class="flftname">Shipment Lifecycle Tracking</div>
+                  <div class="flftdesc">
+                    Real-time status from pickup through in-transit to
+                    delivered. Unique tracking ID with full timestamped history
+                    per shipment.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">02</div>
+                <div>
+                  <div class="flftname">Logistics Coordination Dashboard</div>
+                  <div class="flftdesc">
+                    Centralized view of all active shipments, driver
+                    assignments, route info, and delivery schedules —
+                    eliminating phone-call coordination.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">03</div>
+                <div>
+                  <div class="flftname">Automated Report Generation</div>
+                  <div class="flftdesc">
+                    Scheduled and on-demand delivery summaries, delay analysis,
+                    and volume reports — fully exportable for clients and audit
+                    trails.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">04</div>
+                <div>
+                  <div class="flftname">Client Self-Service Portal</div>
+                  <div class="flftdesc">
+                    Clean client portal for independent shipment status checks —
+                    dramatically reduced inbound inquiry calls.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flside">
+            <div class="flbl">Tech Stack</div>
+            <div class="flstklist" style="margin-bottom: 1.5rem">
+              <div class="flstkrow">
+                <span class="fldot" style="background: #68a063"></span>Node.js
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #61dafb"></span>React.js
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #f89820"></span
+                >Express.js
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #4f9eff"></span>RESTful
+                APIs
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #4ea94b"></span>MongoDB
+              </div>
+            </div>
+            <div class="flbl">Outcomes</div>
+            <div class="flocs">
+              <div class="floc">
+                <span class="flarr">&#8595;</span
+                ><span><strong>35%</strong> manual effort reduction</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8595;</span
+                ><span>Zero missed status updates</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8593;</span
+                ><span>Client self-service portal live</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8593;</span
+                ><span>Full audit trail for all deliveries</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15+ SCALABLE APPS -->
+      <div class="flc rv">
+        <div class="flch">
+          <div>
+            <div class="flpnum">Project 04+ &nbsp;/&nbsp; Web Applications</div>
+            <div class="flpname">
+              Scalable Production<br />Web Applications (15+)
+            </div>
+            <div class="flchips">
+              <span class="flchip">&#128188; Multiple Clients</span>
+              <span class="flchip">&#127760; Full Stack</span>
+              <span class="flchip hi">Freelance &mdash; Ongoing</span>
+            </div>
+          </div>
+          <div class="flimpact">
+            <span class="flival">30%</span>
+            <span class="flilbl">API Response<br />Time Reduced</span>
+          </div>
+        </div>
+        <div class="flbody">
+          <div class="flmain">
+            <div class="flbl">Overview</div>
+            <p class="flprob">
+              Designed, built, and deployed 15+ full-stack production
+              applications for clients across industries — robust backend
+              architecture, optimized APIs, and responsive frontends. All
+              delivered on real deadlines alongside full academic commitments.
+            </p>
+            <div class="flbl">Focus Areas</div>
+            <div class="flfts">
+              <div class="flft">
+                <div class="flftnum">01</div>
+                <div>
+                  <div class="flftname">
+                    Backend Architecture &amp; API Design
+                  </div>
+                  <div class="flftdesc">
+                    Spring Boot and Laravel REST APIs — clean layered
+                    architecture, DTO patterns, global error handling. Response
+                    time reduced 30% through query optimization and caching.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">02</div>
+                <div>
+                  <div class="flftname">Frontend Integration</div>
+                  <div class="flftdesc">
+                    Vue.js and React.js frontends with state management,
+                    responsive layouts, and smooth UX flows tailored to each
+                    client's users and brand.
+                  </div>
+                </div>
+              </div>
+              <div class="flft">
+                <div class="flftnum">03</div>
+                <div>
+                  <div class="flftname">
+                    AWS Deployment &amp; Ongoing Maintenance
+                  </div>
+                  <div class="flftdesc">
+                    Apps deployed on AWS EC2 with S3 for assets. IAM config,
+                    environment management, production stability, and continued
+                    maintenance post-launch.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flside">
+            <div class="flbl">Tech Stack</div>
+            <div class="flstklist" style="margin-bottom: 1.5rem">
+              <div class="flstkrow">
+                <span class="fldot" style="background: #f89820"></span>Java +
+                Spring Boot
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #ff2d20"></span>Laravel
+                (PHP)
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #41b883"></span>Vue.js /
+                Nuxt.js
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #61dafb"></span>React.js
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #ff9900"></span>AWS EC2 /
+                S3 / IAM
+              </div>
+              <div class="flstkrow">
+                <span class="fldot" style="background: #00758f"></span>MySQL /
+                PostgreSQL
+              </div>
+            </div>
+            <div class="flbl">Outcomes</div>
+            <div class="flocs">
+              <div class="floc">
+                <span class="flarr">&#8595;</span
+                ><span><strong>30%</strong> faster API responses</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8593;</span
+                ><span>Production-stable on AWS</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8593;</span
+                ><span>Maintained post-delivery</span>
+              </div>
+              <div class="floc">
+                <span class="flarr">&#8593;</span
+                ><span>Delivered on time, every time</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS — LIGHT -->
+    <section id="achievements">
+      <div class="ey light-ey">06&nbsp;&nbsp;Achievements</div>
+      <h2 class="st light-st">Key <span>Wins</span></h2>
+      <div class="achg">
+        <div class="achc rv">
+          <div class="achico">&#127945;</div>
+          <div>
+            <div class="achn">1st Place &mdash; Java Coding Competition</div>
+            <div class="achs">IGNITE 2025, Charusat University</div>
+          </div>
+        </div>
+        <div class="achc rv2">
+          <div class="achico">&#127945;</div>
+          <div>
+            <div class="achn">1st Place &mdash; SQL/PL-SQL Competition</div>
+            <div class="achs">IGNITE 2025, Charusat University</div>
+          </div>
+        </div>
+        <div class="achc rv">
+          <div class="achico">&#128220;</div>
+          <div>
+            <div class="achn">Postman API Fundamentals</div>
+            <div class="achs">Certified by Postman (Let's Upgrade)</div>
+          </div>
+        </div>
+        <div class="achc rv2">
+          <div class="achico">&#128220;</div>
+          <div>
+            <div class="achn">JDBC in Java</div>
+            <div class="achs">Certified by Great Learning</div>
+          </div>
+        </div>
+        <div class="achc rv">
+          <div class="achico">&#128220;</div>
+          <div>
+            <div class="achn">Introduction to MongoDB</div>
+            <div class="achs">MongoDB University</div>
+          </div>
+        </div>
+        <div class="achc rv2">
+          <div class="achico">&#128220;</div>
+          <div>
+            <div class="achn">Basics of Ethical Hacking</div>
+            <div class="achs">EC-Council (Code Red)</div>
+          </div>
+        </div>
+        <div class="achc rv">
+          <div class="achico">&#127891;</div>
+          <div>
+            <div class="achn">Head Student Coordinator</div>
+            <div class="achs">
+              State-level technical event &mdash; end-to-end planning &amp;
+              execution
+            </div>
+          </div>
+        </div>
+        <div class="achc rv2">
+          <div class="achico">&#128640;</div>
+          <div>
+            <div class="achn">20+ Independent Projects</div>
+            <div class="achs">
+              Built across diverse tech stacks throughout academic years
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="ey" style="justify-content: center">
+        07&nbsp;&nbsp;Contact
+      </div>
+      <div class="contact-wrap rv">
+        <div class="contact-grid">
+          <!-- LEFT INFO -->
+          <div>
+            <h2 class="ci-head">Let's Build<br />Something Together</h2>
+            <p class="ci-sub">
+              Have a project in mind or want to collaborate? Drop a message and
+              I'll get back within 24 hours.
+            </p>
+            <div class="ci-label">Reach me directly</div>
+            <a href="mailto:juzarkagdi53@gmail.com" class="cemail-lnk"
+              >juzarkagdi53@gmail.com</a
+            >
+            <div class="clinks">
+              <a href="tel:+917984915566" class="clink">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" />
+                </svg>
+                +91 79849 15566
+              </a>
+              <a href="https://www.linkedin.com/in/juzar-kagdi-517b64231" target="_blank" class="clink">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4V9h4v2a6 6 0 014-3zM2 9h4v12H2zm2-6a2 2 0 110 4 2 2 0 010-4z" />
+                </svg>
+                LinkedIn
+              </a>
+              <a href="https://github.com/techkagdi" target="_blank" class="clink">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                </svg>
+                GitHub
+              </a>
+              <a href="assets/JUZAR_KAGDI.pdf" download class="clink">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z" />
+                </svg>
+                Resume
+              </a>
+            </div>
+            <div class="ci-avail">
+              <span class="blink"></span>
+              <div>
+                <div class="ci-avail-text">Currently Available</div>
+                <div class="ci-avail-sub">
+                  Open to freelance, internship &amp; full-time roles
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT FORM -->
+          <form class="contact-form" id="contactForm">
+            <div class="cf-row">
+              <div class="cf-field">
+                <label class="cf-label">Full Name *</label>
+                <input
+                  class="cf-input"
+                  type="text"
+                  id="cfName"
+                  placeholder="Your name"
+                  required />
+              </div>
+              <div class="cf-field">
+                <label class="cf-label">Phone Number</label>
+                <input
+                  class="cf-input"
+                  type="tel"
+                  id="cfPhone"
+                  placeholder="+91 98765 43210" />
+              </div>
+            </div>
+            <div class="cf-field">
+              <label class="cf-label">Email Address *</label>
+              <input
+                class="cf-input"
+                type="email"
+                id="cfEmail"
+                placeholder="you@example.com"
+                required />
+            </div>
+            <div class="cf-field">
+              <label class="cf-label">Subject</label>
+              <input
+                class="cf-input"
+                type="text"
+                id="cfSubject"
+                placeholder="Project inquiry / Collaboration / Hello" />
+            </div>
+            <div class="cf-field">
+              <label class="cf-label">Message *</label>
+              <textarea
+                class="cf-input"
+                id="cfMessage"
+                rows="5"
+                placeholder="Tell me about your project, timeline, and budget..."
+                required></textarea>
+            </div>
+            <button
+              type="button"
+              class="cf-btn"
+              id="cfBtn"
+              onclick="handleSubmit()">
+              Send Message &rarr;
+            </button>
+            <div id="cfStatus" class="cf-status"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Designed &amp; built by <span>Juzar Kagdi</span></p>
+      <p>Bharuch, Gujarat &middot; 2025</p>
+    </footer>
+
+    <script>
+      // Cursor
+      const cur = document.getElementById("cur"),
+        ring = document.getElementById("ring");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        cur.style.left = mx + "px";
+        cur.style.top = my + "px";
+      });
+      (function tick() {
+        rx += (mx - rx) * 0.1;
+        ry += (my - ry) * 0.1;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(tick);
+      })();
+      document
+        .querySelectorAll("a,button,.flc,.sk-tag,.pc,.achc,.ei,.excard")
+        .forEach((el) => {
+          el.addEventListener("mouseenter", () => ring.classList.add("big"));
+          el.addEventListener("mouseleave", () => ring.classList.remove("big"));
+        });
+
+      // Typewriter
+      const words = [
+      
+        "Full Stack Developer",
+        "Freelance Engineer",
+          "Java Spring Boot Expert",
+      ];
+      let wi = 0,
+        ci = 0,
+        isDeleting = false;
+      const tel = document.getElementById("typed");
+      function tw() {
+        const w = words[wi];
+        if (!isDeleting) {
+          tel.textContent = w.slice(0, ci + 1);
+          ci++;
+          if (ci === w.length) {
+            isDeleting = true;
+            setTimeout(tw, 1800);
+            return;
+          }
+        } else {
+          tel.textContent = w.slice(0, ci - 1);
+          ci--;
+          if (ci === 0) {
+            isDeleting = false;
+            wi = (wi + 1) % words.length;
+          }
+        }
+        setTimeout(tw, isDeleting ? 52 : 82);
+      }
+      tw();
+
+      // Scroll reveal
+      const obs = new IntersectionObserver(
+        (es) => {
+          es.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("on");
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document
+        .querySelectorAll(".rv,.rvr,.rvl,.rv2,.rv3")
+        .forEach((el) => obs.observe(el));
+
+      // Hamburger
+      const ham = document.getElementById("ham"),
+        mob = document.getElementById("mob");
+      ham.addEventListener("click", () => mob.classList.toggle("open"));
+      mob
+        .querySelectorAll("a")
+        .forEach((a) =>
+          a.addEventListener("click", () => mob.classList.remove("open")),
+        );
+
+      // Active nav
+      const secs = [...document.querySelectorAll("section[id]")];
+      const nas = [...document.querySelectorAll(".nav-links a")];
+      window.addEventListener(
+        "scroll",
+        () => {
+          let c = "";
+          secs.forEach((s) => {
+            if (scrollY >= s.offsetTop - 100) c = s.id;
+          });
+          nas.forEach((a) =>
+            a.classList.toggle("act", a.getAttribute("href") === "#" + c),
+          );
+        },
+        { passive: true },
+      );
+
+      // Contact form
+      async function handleSubmit() {
+        const btn = document.getElementById("cfBtn");
+        const status = document.getElementById("cfStatus");
+        const name = document.getElementById("cfName").value.trim();
+        const phone = document.getElementById("cfPhone").value.trim();
+        const email = document.getElementById("cfEmail").value.trim();
+        const subject = document.getElementById("cfSubject").value.trim();
+        const message = document.getElementById("cfMessage").value.trim();
+        if (!name || !email || !message) {
+          status.className = "cf-status err";
+          status.style.display = "block";
+          status.textContent = "Please fill in Name, Email, and Message.";
+          return;
+        }
+        btn.disabled = true;
+        btn.textContent = "Sending...";
+        status.style.display = "none";
+        try {
+          const res = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, phone, email, subject, message }),
+          });
+          const data = await res.json();
+          if (res.ok) {
+            status.className = "cf-status ok";
+            status.textContent =
+              "Message sent! I will get back to you within 24 hours.";
+            document.getElementById("contactForm").reset();
+          } else {
+            throw new Error(data.error || "Server error");
+          }
+        } catch (err) {
+          status.className = "cf-status err";
+          status.textContent =
+            "Could not send message. Please email directly: juzarkagdi53@gmail.com";
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Send Message \u2192";
+          status.style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>
